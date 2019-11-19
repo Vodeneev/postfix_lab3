@@ -121,7 +121,9 @@ bool TPostfix::Check()
 			if (IsOperand(infix[i]))
 				status = 1;
 			else if (IsNumber(infix[i]))
-				if (infix[i] == '0' & infix[i - 1] == '/')
+				if (i == 0)
+					status = 1;
+				else if ((infix[i] == '0') & (infix[i - 1] == '/'))
 					status = 3;
 				else
 					status = 1;
@@ -147,8 +149,8 @@ bool TPostfix::Check()
 				status = 0;
 			else if (IsNumber(infix[i]) & IsNumber(infix[i - 1]))
 				status = 1;
-			else if (infix[i] ==',' & IsNumber(infix[i - 1]))
-				status = 1;
+			else if ((infix[i] =='.') & (IsNumber(infix[i - 1])))
+				status = 0;
 			else status = 3;
 		}
 		else if (status == 2) {
@@ -187,7 +189,7 @@ void TPostfix::ToPostfix() {
 		else if (IsNumber(infix[i]))
 		{
 			string s = "";
-			while (IsNumber(infix[i]) || infix[i] == ',') {
+			while (IsNumber(infix[i]) || infix[i] == '.') {
 				s += infix[i];
 				i++;
 			}
@@ -256,26 +258,26 @@ double TPostfix::Calculate()
 	double Resault = 0;
 	for (int i = 0; i < postfix.size(); i++) {
 		if (postfix[i] == "+") {
-			int op = operands.pop();
+			double op = operands.pop();
 			Resault = operands.pop() + op;
 			operands.Push(Resault);
 		}
 		else if (postfix[i] == "-") {
-			int op = operands.pop();
+			double op = operands.pop();
 			Resault = operands.pop() - op;
 			operands.Push(Resault);
 		}
 		else if (postfix[i] == "*") {
-			int op = operands.pop();
+			double op = operands.pop();
 			Resault = operands.pop() * op;
 			operands.Push(Resault);
 		}
 		else if (postfix[i] == "/") {
-			int op = operands.pop();
+			double op = operands.pop();
 			Resault = operands.pop() / op;
 			operands.Push(Resault);
 		}
-		else if (IsOperand(postfix[i])) {
+		else if (IsOperand(postfix[i][0])) {
 			double temp;
 			cout << "Insert:";
 			cin >> temp;

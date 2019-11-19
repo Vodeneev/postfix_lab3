@@ -37,6 +37,13 @@ TEST(TPostfix, right_infix3) {
 	EXPECT_EQ(pf.Check(), 1);
 }
 
+TEST(TPostfix, right_infix4) {
+	TPostfix pf;
+	string a = "1.5+1.5";
+	pf.SetInfix(a);
+	EXPECT_EQ(pf.Check(), 1);
+}
+
 TEST(TPostfix, wrong_infix1) {
 	TPostfix pf;
 	string a = "sdlfslf";
@@ -54,6 +61,13 @@ TEST(TPostfix, wrong_infix2) {
 TEST(TPostfix, wrong_infix3) {
 	TPostfix pf;
 	string a = "(1+2";
+	pf.SetInfix(a);
+	EXPECT_EQ(pf.Check(), 0);
+}
+
+TEST(TPostfix, wrong_infix4) {
+	TPostfix pf;
+	string a = "1/0";
 	pf.SetInfix(a);
 	EXPECT_EQ(pf.Check(), 0);
 }
@@ -85,6 +99,15 @@ TEST(TPostfix, topostfix2) {
 	EXPECT_EQ(pf.GetPostfix(), b);
 }
 
+TEST(TPostfix, topostfix3) {
+	TPostfix pf;
+	string a = "1.5+1.5";
+	pf.SetInfix(a);
+	pf.ToPostfix();
+	vector<string> b = { "1.5","1.5","+" };
+	EXPECT_EQ(pf.GetPostfix(), b);
+}
+
 // тесты на подсчёт
 
 TEST(TPostfix, calculate1)
@@ -102,4 +125,21 @@ TEST(TPostfix, calculate2)
 	pf.SetInfix(a);
 	pf.ToPostfix();
 	EXPECT_EQ(5, pf.Calculate());
+}
+TEST(TPostfix, calculate3)
+{
+	TPostfix pf;
+	string a = "1.5+1.5";
+	pf.SetInfix(a);
+	pf.ToPostfix();
+	EXPECT_EQ(3, pf.Calculate());
+}
+
+TEST(TPostfix, calculate4)
+{
+	TPostfix pf;
+	string a = "a+b"; // ввдоим так, чтобы сумма была равна 3
+	pf.SetInfix(a);
+	pf.ToPostfix();
+	EXPECT_EQ(3, pf.Calculate());
 }
