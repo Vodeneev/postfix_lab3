@@ -67,10 +67,11 @@ TEST(TPostfix, wrong_infix3) {
 
 TEST(TPostfix, wrong_infix4) {
 	TPostfix pf;
-	string a = "1/0";
+	string a = "1.23.4";
 	pf.SetInfix(a);
 	EXPECT_EQ(pf.Check(), 0);
 }
+
 
 // тесты на перевод в польскую запись
 

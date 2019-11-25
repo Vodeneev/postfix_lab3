@@ -114,19 +114,16 @@ int IsOperator(const char& op)
 
 bool TPostfix::Check()
 {
+	int t = 0;
 	int k = 0;
 	int status = 0;
 	for (int i = 0; i < infix.size(); i++) {
 		if (status == 0) {
 			if (IsOperand(infix[i]))
 				status = 1;
-			else if (IsNumber(infix[i]))
-				if (i == 0)
-					status = 1;
-				else if ((infix[i] == '0') & (infix[i - 1] == '/'))
-					status = 3;
-				else
-					status = 1;
+			else if (IsNumber(infix[i])) {
+				status = 1;
+			}
 			else if (infix[i] == '(') {
 				status = 0;
 				k += 1;
@@ -145,12 +142,16 @@ bool TPostfix::Check()
 				else
 					status = 3;
 			}
-			else if (IsOperator(infix[i]))
+			else if (IsOperator(infix[i])) {
+				t = 0;
 				status = 0;
+			}
 			else if (IsNumber(infix[i]) & IsNumber(infix[i - 1]))
 				status = 1;
-			else if ((infix[i] =='.') & (IsNumber(infix[i - 1])))
+			else if ((infix[i] == '.') & (IsNumber(infix[i - 1])) & t == 0) {
+				t++;
 				status = 0;
+			}
 			else status = 3;
 		}
 		else if (status == 2) {
@@ -274,6 +275,9 @@ double TPostfix::Calculate()
 		}
 		else if (postfix[i] == "/") {
 			double op = operands.pop();
+			if (operands.top() == 0)
+				throw 777;
+			else
 			Resault = operands.pop() / op;
 			operands.Push(Resault);
 		}
