@@ -55,6 +55,7 @@ Stack<T>::Stack(const Stack& _A) {
 
 }
 
+
 template <class T>
 void Stack<T>::Push(T a) {
 	if ((end - begin) > size - 1) {
